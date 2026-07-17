@@ -51,14 +51,37 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, State
 
 export function ThemeLoader({ themeUrl }: Props) {
   const LazyTheme = React.lazy(() => {
-    return import(/* @vite-ignore */ themeUrl).catch((err) => {
-      // @ts-ignore
-      if (import.meta.env.DEV) {
-        console.warn("DEV: Fallback to source theme because bundle was not found or failed:", err);
-        return import("../../../../themes/sample-theme/src/App");
-      }
-      throw new Error(`Failed to load theme bundle: ${err.message}`);
-    });
+    console.log(`ThemeLoader: Attempting to dynamically import theme bundle from: ${themeUrl}`);
+    return import(/* @vite-ignore */ themeUrl)
+      .then((module) => {
+        console.log(`ThemeLoader: Successfully loaded theme bundle from: ${themeUrl}`);
+        return module;
+      })
+      .catch((err) => {
+        console.error(`ThemeLoader: Failed to load theme bundle from: ${themeUrl}`, err);
+        
+        // @ts-ignore
+        if (import.meta.env.DEV) {
+          const themeNameMatch = themeUrl.match(/\/themes\/([^\/]+)\//);
+          const themeName = themeNameMatch ? themeNameMatch[1] : "sample-theme";
+          console.warn(`DEV Mode detected. Falling back to the source theme code for "${themeName}" to resolve imports correctly...`);
+          
+          switch (themeName) {
+            case "royal-gold":
+              return import("../../../../themes/royal-gold/src/App");
+            case "botanical-garden":
+              return import("../../../../themes/botanical-garden/src/App");
+            case "modern-minimalist":
+              return import("../../../../themes/modern-minimalist/src/App");
+            case "premium-theme":
+              return import("../../../../themes/premium-theme/src/App");
+            case "sample-theme":
+            default:
+              return import("../../../../themes/sample-theme/src/App");
+          }
+        }
+        throw new Error(`Failed to load theme bundle: ${err.message}`);
+      });
   });
 
   return (

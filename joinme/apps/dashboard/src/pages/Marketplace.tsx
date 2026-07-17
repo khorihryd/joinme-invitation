@@ -23,8 +23,8 @@ export default function Marketplace() {
     window.location.href = `?${params.toString()}`;
   };
 
-  const handlePreviewTheme = (demoInviteId: string) => {
-    const matched = THEME_CATALOG.find((t) => t.demoInviteId === demoInviteId);
+  const handlePreviewTheme = (themeId: string) => {
+    const matched = THEME_CATALOG.find((t) => t.id === themeId);
     if (matched) {
       setPreviewTheme(matched);
     }

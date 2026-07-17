@@ -6,7 +6,7 @@ interface ThemeCardProps {
   theme: ThemeItem;
   userTier: string;
   onSelect: (themeId: string) => void;
-  onPreview: (demoInviteId: string) => void;
+  onPreview: (themeId: string) => void;
   onUpgrade: () => void;
 }
 
@@ -93,7 +93,7 @@ export default function ThemeCard({ theme, userTier, onSelect, onPreview, onUpgr
       <div className="grid grid-cols-2 gap-3">
         {/* Left: Interactive Preview */}
         <button
-          onClick={() => onPreview(theme.demoInviteId)}
+          onClick={() => onPreview(theme.id)}
           className="w-full py-2.5 bg-white/[0.02] hover:bg-white/[0.06] border border-white/[0.08] text-gray-300 hover:text-white text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5"
         >
           <span>👁</span> Pratinjau

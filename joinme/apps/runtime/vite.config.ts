@@ -38,5 +38,10 @@ export default defineConfig({
     alias: {
       "@joinme/theme-sdk": path.resolve(__dirname, "../../packages/theme-sdk/src/index.ts")
     }
+  },
+  server: {
+    fs: {
+      allow: [".."]
+    }
   }
 });
