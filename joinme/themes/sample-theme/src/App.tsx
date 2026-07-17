@@ -1,4 +1,4 @@
-import { useInvitation } from "@joinme/theme-sdk";
+import { useInvitation, Countdown, RSVP } from "@joinme/theme-sdk";
 
 export default function App() {
   const { data, loading, error } = useInvitation();
@@ -68,6 +68,11 @@ export default function App() {
             "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya."
           </p>
 
+          {/* Countdown Section */}
+          <div className="py-2 animate-fade-in">
+            <Countdown targetDate={data.date} />
+          </div>
+
           <div className="h-px bg-white/[0.06] w-full"></div>
 
           {/* Details Section */}
@@ -98,11 +103,16 @@ export default function App() {
             <p className="text-xl font-medium text-amber-100/90">{data.hostName}</p>
           </div>
 
+          {/* RSVP Section */}
+          <div className="space-y-4 text-left max-w-md mx-auto animate-fade-in">
+            <h3 className="text-center text-xs font-semibold text-amber-400 font-mono uppercase tracking-widest">Konfirmasi Kehadiran</h3>
+            <RSVP guestId={data.guestId || "default-guest"} />
+          </div>
+
+          <div className="h-px bg-white/[0.06] w-full"></div>
+
           {/* Action Buttons Frame */}
           <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-500/20 active:scale-[0.98]">
-              Konfirmasi Kehadiran (RSVP)
-            </button>
             <button className="w-full sm:w-auto px-8 py-3 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white font-medium rounded-xl transition-all duration-300 active:scale-[0.98]">
               Kirim Hadiah Digital
             </button>

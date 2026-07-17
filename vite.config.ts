@@ -37,7 +37,7 @@ export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss(), serveThemesPlugin()],
     esbuild: {
-      drop: ['console', 'debugger'],
+      drop: ['console', 'debugger'] as ('console' | 'debugger')[],
     },
     resolve: {
       alias: {

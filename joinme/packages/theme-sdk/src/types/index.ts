@@ -3,6 +3,7 @@ export interface InvitationData {
   date: string;
   location: string;
   hostName: string;
+  guestId?: string;
 }
 
 export interface Guest {
