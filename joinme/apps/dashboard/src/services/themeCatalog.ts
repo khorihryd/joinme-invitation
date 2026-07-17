@@ -59,6 +59,16 @@ export const THEME_CATALOG: ThemeItem[] = [
     demoInviteId: "xyz789",
     features: ["Tipografi DM Sans Bold", "Layout Flat Kontemporer", "Input RSVP Garis Minimalis", "Banyak Ruang Kosong (White Space)"],
     thumbnailUrl: "/themes/modern-minimalist/thumbnail.png"
+  },
+  {
+    id: "reels-story",
+    name: "Reels Story",
+    description: "Tema imersif bergaya Instagram Reels & Stories. Layout layar penuh modern dengan swipe horizontal, iringan musik romantis otomatis, serta navigasi progress bar.",
+    thumbnailGradient: "from-[#12071a] via-[#1c0827] to-[#12071a] border-pink-500/30 text-white",
+    tier: "premium",
+    demoInviteId: "abc123",
+    features: ["Navigasi Cerita (Swipe Horizontal)", "Segmented Progress Bar Terintegrasi", "Layar Penuh (Immersive Fullscreen)", "Pemutar Musik Romantis Otomatis", "Formulir RSVP & Countdown Modern"],
+    thumbnailUrl: "/themes/reels-story/thumbnail.png"
   }
 ];
 

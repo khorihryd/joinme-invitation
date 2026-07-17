@@ -73,6 +73,19 @@ export default function PreviewTheme({ theme, userTier, onBack, onSelect, onUpgr
           coupleStyle: "font-serif text-3xl font-bold tracking-tight text-amber-400 my-3",
           quote: "Menyambut babak baru kehidupan penuh cinta, kemegahan, dan harmoni abadi."
         };
+      case "reels-story":
+        return {
+          bg: "bg-gradient-to-b from-[#12071a] via-[#1c0827] to-[#12071a]",
+          textColor: "text-gray-100",
+          accentColor: "text-pink-500",
+          accentBorder: "border-pink-500/30",
+          buttonBg: "bg-gradient-to-r from-pink-500 to-rose-500 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold shadow-lg shadow-pink-500/20",
+          badge: "👑 PREMIUM TEMA",
+          badgeStyle: "bg-pink-500/10 text-pink-400 border-pink-500/30",
+          coupleNames: "Reels & Story Theme",
+          coupleStyle: "font-serif text-3xl font-black text-white my-3 drop-shadow-md",
+          quote: "Swipe horizontal & full-screen immersive design. Nikmati pengalaman undangan modern seperti Instagram Stories."
+        };
       case "sample-theme":
       default:
         return {

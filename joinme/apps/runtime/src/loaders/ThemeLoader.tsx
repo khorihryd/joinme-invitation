@@ -69,6 +69,8 @@ export function ThemeLoader({ themeUrl }: Props) {
           switch (themeName) {
             case "royal-gold":
               return import("../../../../themes/royal-gold/src/App");
+            case "reels-story":
+              return import("../../../../themes/reels-story/src/App");
             case "botanical-garden":
               return import("../../../../themes/botanical-garden/src/App");
             case "modern-minimalist":

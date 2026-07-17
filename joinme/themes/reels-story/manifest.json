@@ -1,0 +1,14 @@
+{
+  "name": "Reels Story",
+  "version": "1.0.0",
+  "description": "Tema Reels & Story interaktif layar penuh dengan swipe horizontal imersif.",
+  "author": "JoinMe",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#EC4899" },
+      "font": { "type": "string", "default": "Inter" }
+    }
+  }
+}
