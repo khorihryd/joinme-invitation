@@ -29,6 +29,36 @@ export const THEME_CATALOG: ThemeItem[] = [
     demoInviteId: "xyz789",
     features: ["Aksen Ornamen Emas Royal", "Efek Glassmorphism Mewah", "Konfirmasi RSVP Eksklusif", "Efek Interaktif & Animasi Halus"],
     thumbnailUrl: "/assets/non-existent-premium-thumb.jpg" // Set to a non-existent URL to demonstrate the fallback UI
+  },
+  {
+    id: "royal-gold",
+    name: "Royal Gold",
+    description: "Tema mewah klasik klasik dengan perpaduan warna latar belakang gelap yang pekat dan ornamen foil emas berkilau.",
+    thumbnailGradient: "from-[#1c1416] via-[#0d0a0b] to-[#131011] border-[#d4af37]/40",
+    tier: "premium",
+    demoInviteId: "abc123",
+    features: ["Aksen Foil Emas Mewah", "Countdown Style Gold", "Card Gift & Rekening Premium", "Playfair Display Typography"],
+    thumbnailUrl: "/themes/royal-gold/thumbnail.png"
+  },
+  {
+    id: "botanical-garden",
+    name: "Botanical Garden",
+    description: "Desain segar bernuansa alam dengan perpaduan latar belakang hijau sage lembut dan ornamen dedaunan organik.",
+    thumbnailGradient: "from-[#edf2ed] via-[#f3f6f3] to-[#e3eae4] border-[#2f5233]/30 text-gray-800",
+    tier: "premium",
+    demoInviteId: "abc123",
+    features: ["Nuansa Hijau Sage Alami", "Timeline Detail Dedaunan", "Cormorant Garamond Serif", "Music Player Organik"],
+    thumbnailUrl: "/themes/botanical-garden/thumbnail.png"
+  },
+  {
+    id: "modern-minimalist",
+    name: "Modern Minimalist",
+    description: "Gaya kontemporer yang bersih dan berani dengan memanfaatkan ruang kosong yang luas dan tipografi ultra-modern.",
+    thumbnailGradient: "from-[#ffffff] via-[#fafafa] to-[#f4f4f4] border-black/15 text-black",
+    tier: "premium",
+    demoInviteId: "xyz789",
+    features: ["Tipografi DM Sans Bold", "Layout Flat Kontemporer", "Input RSVP Garis Minimalis", "Banyak Ruang Kosong (White Space)"],
+    thumbnailUrl: "/themes/modern-minimalist/thumbnail.png"
   }
 ];
 
