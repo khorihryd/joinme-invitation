@@ -1,0 +1,6 @@
+{
+  "name": "JoinMe Platform",
+  "description": "JoinMe digital invitation SaaS platform based on a Theme Engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

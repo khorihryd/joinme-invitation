@@ -1,0 +1,14 @@
+{
+  "name": "Sample Theme",
+  "version": "1.0.0",
+  "description": "Theme contoh untuk JoinMe",
+  "author": "JoinMe",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#7C3AED" },
+      "font": { "type": "string", "default": "Inter" }
+    }
+  }
+}
