@@ -9,3 +9,10 @@ export { Countdown } from "./components/Countdown";
 export { RSVP } from "./components/RSVP";
 export { useCountdown } from "./hooks/useCountdown";
 export { useRSVP } from "./hooks/useRSVP";
+
+// New presentational components and business logic hooks (Block 11)
+export { Gallery } from "./components/Gallery";
+export { MusicPlayer } from "./components/MusicPlayer";
+export { useGallery } from "./hooks/useGallery";
+export { useMusic } from "./hooks/useMusic";
+

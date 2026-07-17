@@ -4,6 +4,7 @@ export interface InvitationData {
   location: string;
   hostName: string;
   guestId?: string;
+  gallery?: string[];
 }
 
 export interface Guest {
