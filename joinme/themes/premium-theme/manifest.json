@@ -1,0 +1,15 @@
+{
+  "name": "Premium Theme",
+  "version": "1.0.0",
+  "description": "Premium luxury theme with gold aesthetics, elegant glassmorphism, and smooth animations",
+  "author": "JoinMe Premium",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "tier": "premium",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#D97706" },
+      "font": { "type": "string", "default": "Playfair Display" }
+    }
+  }
+}
