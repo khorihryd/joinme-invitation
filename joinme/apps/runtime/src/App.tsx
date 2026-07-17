@@ -11,12 +11,25 @@ export default function App() {
   const [inviteId, setInviteId] = useState<string | null>(null);
   const [isDenied, setIsDenied] = useState<boolean>(false);
   const [deniedThemeName, setDeniedThemeName] = useState<string>("");
+  const [forcedTheme, setForcedTheme] = useState<string | null>(null);
 
   // Retrieve the invite parameter from the URL query string
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get("invite");
     setInviteId(id);
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data && event.data.type === "UPDATE_INVITATION_DATA") {
+        if (event.data.payload && event.data.payload.theme) {
+          setForcedTheme(event.data.payload.theme);
+        }
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   useEffect(() => {
@@ -31,7 +44,7 @@ export default function App() {
       .then((invitation) => {
         // Read theme from URL parameter, fallback to invitation's configured theme, and then to sample-theme
         const searchParams = new URLSearchParams(window.location.search);
-        const themeName = searchParams.get("theme") || invitation.theme || "sample-theme";
+        const themeName = forcedTheme || searchParams.get("theme") || invitation.theme || "sample-theme";
         
         // Load the manifest for the specified theme
         return loadManifest(themeName).then((manifest) => {
@@ -51,7 +64,7 @@ export default function App() {
         console.error("Gagal memuat:", err);
         setManifestError(err instanceof Error ? err : new Error("Gagal memuat tema atau undangan"));
       });
-  }, [inviteId]);
+  }, [inviteId, forcedTheme]);
 
   const handleSetInvite = (id: string) => {
     // Elegant routing fallback for development preview

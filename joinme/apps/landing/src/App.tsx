@@ -53,16 +53,16 @@ export default function App() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300">JoinMe V2.0 Launch</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-amber-300">✨ Solusi Undangan Pernikahan Premium</span>
           </div>
 
           {/* Slogan */}
           <h1 className="text-5xl sm:text-7xl font-sans font-black tracking-tight text-white leading-[1.1]">
-            Buat Undangan Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-indigo-400">Premium</span> dalam Hitungan Menit
+            Kirim Undangan Digital <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-indigo-400">Mewah & Elegan</span> dalam 5 Menit
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto font-light">
-            Platform ekosistem undangan modern dengan pemuatan tema dinamis instan, desain visual berkelas dunia, dan kustomisasi tanpa batas untuk perayaan spesial Anda.
+            Hadirkan kesan pertama yang memukau bagi para tamu undangan Anda. Dilengkapi dengan galeri foto momen indah, hitung mundur hari bahagia, pemutar musik romantis otomatis, kado digital, serta konfirmasi kehadiran RSVP yang instan dan praktis.
           </p>
 
           {/* CTA Buttons */}
@@ -71,29 +71,29 @@ export default function App() {
               onClick={() => handleNavigate("register")} 
               className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold text-base rounded-2xl shadow-xl shadow-amber-500/25 transition-all duration-300 active:scale-[0.98] cursor-pointer"
             >
-              Mulai Gratis
+              Mulai Buat Gratis
             </button>
             <button 
-              onClick={() => handleNavigate("login")} 
+              onClick={() => handleNavigate("register")} 
               className="w-full sm:w-auto px-10 py-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] text-white font-semibold text-base rounded-2xl transition-all duration-300 active:scale-[0.98] cursor-pointer"
             >
-              Pelajari Fitur
+              Lihat Contoh Tema
             </button>
           </div>
 
           {/* Quick Stats Grid */}
           <div className="pt-16 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-12 text-center max-w-2xl mx-auto">
             <div className="space-y-1">
-              <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">800ms</span>
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Load Time Tema</p>
+              <span className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-sans">10.000+</span>
+              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Pasangan Berbahagia</p>
             </div>
             <div className="space-y-1">
-              <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">100%</span>
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Dynamic Loader</p>
+              <span className="text-2xl sm:text-3xl font-extrabold text-white font-sans">5 Menit</span>
+              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Pembuatan Instan</p>
             </div>
             <div className="space-y-1 col-span-2 sm:col-span-1">
-              <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono">Premium</span>
-              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Desain & Tipografi</p>
+              <span className="text-2xl sm:text-3xl font-extrabold text-white font-sans">Mewah</span>
+              <p className="text-xs text-gray-400 uppercase tracking-widest font-mono">Desain & Tipografi Eksklusif</p>
             </div>
           </div>
         </div>

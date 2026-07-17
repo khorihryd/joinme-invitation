@@ -27,6 +27,21 @@ export function ThemeProvider({ inviteId, children }: ThemeProviderProps) {
       });
   }, [inviteId]);
 
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data && event.data.type === "UPDATE_INVITATION_DATA") {
+        setData(event.data.payload);
+        setLoading(false);
+        setError(null);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
   return (
     <ThemeContext.Provider value={{ data, loading, error, setData, setLoading, setError }}>
       {children}

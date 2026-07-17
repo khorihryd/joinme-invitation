@@ -24,6 +24,21 @@ export interface InvitationData {
   story?: StoryData;
   timeline?: TimelineItem[];
   gift?: GiftItem[];
+  
+  // New wedding-specific fields
+  groomName?: string;
+  brideName?: string;
+  parentsName?: string;
+  eventStartTime?: string;
+  eventEndTime?: string;
+  mapLink?: string;
+  storyTitle?: string;
+  storyContent?: string;
+  musicUrl?: string;
+  gifts?: GiftItem[];
+  rsvpDeadline?: string;
+  streamingLink?: string;
+  guestBookActive?: boolean;
 }
 
 export interface Guest {

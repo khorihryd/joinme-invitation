@@ -89,6 +89,48 @@ export async function fetchInvitation(inviteId: string): Promise<InvitationDataW
     };
   }
 
+  if (inviteId === "demo") {
+    return {
+      eventName: "Demo Pernikahan Kevin & Clarissa",
+      date: "2026-10-12T10:00:00Z",
+      location: "Gedung Pertemuan Utama",
+      hostName: "Keluarga Bpk. Kusuma & Ibu Shinta",
+      theme: "reels-story",
+      guestId: "guest-demo",
+      gallery: [
+        "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1519225495810-7517c520a700?q=80&w=600&auto=format&fit=crop"
+      ],
+      story: {
+        title: "Kisah Cinta Kami",
+        content: "Pertemuan pertama kami dimulai dari bangku kuliah, tumbuh dalam persahabatan, dan akhirnya kami memutuskan untuk menyatukan janji suci pernikahan ini selamanya."
+      },
+      timeline: [
+        { time: "08:00 - 09:30", activity: "Akad Nikah / Pemberkatan" },
+        { time: "11:00 - 13:00", activity: "Resepsi" }
+      ],
+      gift: [
+        { bank: "BCA", number: "1234567890", name: "Kevin Kusuma" }
+      ],
+      groomName: "Kevin Kusuma",
+      brideName: "Clarissa Wijaya",
+      parentsName: "Putra dari Bpk. Kusuma & Ibu Shinta",
+      eventStartTime: "10:00 WIB",
+      eventEndTime: "16:00 WIB",
+      mapLink: "https://maps.google.com",
+      storyTitle: "Perjalanan Cinta",
+      storyContent: "Kisah asmara indah yang bermula dari pertemuan tak terduga.",
+      musicUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      gifts: [
+        { bank: "BCA", number: "1234567890", name: "Kevin Kusuma" }
+      ],
+      rsvpDeadline: "2026-10-01",
+      streamingLink: "https://zoom.us",
+      guestBookActive: true
+    };
+  }
+
   throw new Error(`Undangan dengan ID "${inviteId}" tidak ditemukan.`);
 }
 
