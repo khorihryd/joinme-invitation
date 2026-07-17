@@ -29,7 +29,9 @@ export default function App() {
     // Fetch invitation first to find out which theme it uses
     fetchInvitation(inviteId)
       .then((invitation) => {
-        const themeName = invitation.theme || "sample-theme";
+        // Read theme from URL parameter, fallback to invitation's configured theme, and then to sample-theme
+        const searchParams = new URLSearchParams(window.location.search);
+        const themeName = searchParams.get("theme") || invitation.theme || "sample-theme";
         
         // Load the manifest for the specified theme
         return loadManifest(themeName).then((manifest) => {
@@ -53,7 +55,9 @@ export default function App() {
 
   const handleSetInvite = (id: string) => {
     // Elegant routing fallback for development preview
-    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?invite=${id}`;
+    const params = new URLSearchParams(window.location.search);
+    params.set("invite", id);
+    const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?${params.toString()}`;
     window.location.href = newUrl;
   };
 

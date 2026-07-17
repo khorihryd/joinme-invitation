@@ -16,7 +16,7 @@ export default function PreviewTheme({ theme, userTier, onBack, onSelect, onUpgr
   const isLocked = isPremium && userTier !== "premium";
 
   // Build the live preview URL using the designated preview invitation ID of the theme
-  const previewUrl = `${window.location.origin}/?invite=${theme.demoInviteId}`;
+  const previewUrl = `/?invite=${theme.demoInviteId}&theme=${theme.id}`;
 
   return (
     <div id="preview-theme-page" className="space-y-6">
