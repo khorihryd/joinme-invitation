@@ -1,0 +1,15 @@
+{
+  "name": "Royal Gold",
+  "version": "1.0.0",
+  "description": "Klasik Mewah dengan Latar Belakang Gelap dan Aksen Foil Emas",
+  "author": "JoinMe Premium",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "tier": "premium",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#D4AF37" },
+      "font": { "type": "string", "default": "Playfair Display" }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Botanical Garden",
+  "version": "1.0.0",
+  "description": "Alami & Segar dengan Latar Belakang Hijau Sage dan Aksen Organik Dedaunan",
+  "author": "JoinMe Premium",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "tier": "premium",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#2F5233" },
+      "font": { "type": "string", "default": "Cormorant Garamond" }
+    }
+  }
+}

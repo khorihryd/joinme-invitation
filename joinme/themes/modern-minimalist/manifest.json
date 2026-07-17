@@ -1,0 +1,15 @@
+{
+  "name": "Modern Minimalist",
+  "version": "1.0.0",
+  "description": "Kontemporer & Bersih dengan Layout Tipografi Bold dan Banyak Ruang Kosong (White Space)",
+  "author": "JoinMe Premium",
+  "runtimeVersion": "1.x",
+  "entry": "dist/index.es.js",
+  "tier": "premium",
+  "configSchema": {
+    "properties": {
+      "primaryColor": { "type": "string", "default": "#111111" },
+      "font": { "type": "string", "default": "DM Sans" }
+    }
+  }
+}

@@ -34,7 +34,29 @@ export async function fetchInvitation(inviteId: string): Promise<InvitationDataW
       date: "2026-10-10T10:00:00Z",
       location: "Gedung Serbaguna, Jakarta",
       hostName: "Keluarga Besar Budi & Ani",
-      theme: "sample-theme"
+      theme: "sample-theme",
+      guestId: "guest-budi-ani",
+      gallery: [
+        "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1519225495810-7517c520a700?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=600&auto=format&fit=crop"
+      ],
+      story: {
+        title: "Kisah Cinta Kami",
+        content: "Pertemuan pertama kami dimulai dari bangku kuliah, tumbuh dalam persahabatan, dan akhirnya kami memutuskan untuk menyatukan janji suci pernikahan ini selamanya."
+      },
+      timeline: [
+        { time: "08:00 - 09:30", activity: "Akad Nikah / Pemberkatan" },
+        { time: "11:00 - 13:00", activity: "Resepsi Sesi 1" },
+        { time: "13:30 - 15:30", activity: "Resepsi Sesi 2" }
+      ],
+      gift: [
+        { bank: "BCA", number: "1234567890", name: "Budi Santoso" },
+        { bank: "Mandiri", number: "0987654321", name: "Ani Wijaya" }
+      ]
     };
   }
 
@@ -44,7 +66,26 @@ export async function fetchInvitation(inviteId: string): Promise<InvitationDataW
       date: "2026-11-20T18:00:00Z",
       location: "Sky Lounge & Bar, Hotel Mulia, Jakarta",
       hostName: "Keluarga Handoko & Clara Olivia",
-      theme: "premium-theme"
+      theme: "premium-theme",
+      guestId: "guest-clara",
+      gallery: [
+        "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=600&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=600&auto=format&fit=crop"
+      ],
+      story: {
+        title: "Menuju Kedewasaan",
+        content: "Tujuh belas tahun penuh tawa, cinta, dan petualangan. Saya sangat bersyukur atas setiap momen indah dan siap menyambut lembaran baru dalam hidup ini."
+      },
+      timeline: [
+        { time: "18:00 - 18:30", activity: "Registrasi & Welcoming Guest" },
+        { time: "18:30 - 19:30", activity: "Opening, Birthday Wish & Cake Cutting" },
+        { time: "19:30 - 21:00", activity: "Dinner, Music & Games" }
+      ],
+      gift: [
+        { bank: "BCA", number: "5678901234", name: "Clara Olivia" }
+      ]
     };
   }
 

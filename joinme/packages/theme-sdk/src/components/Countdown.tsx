@@ -6,9 +6,10 @@ export interface CountdownProps {
   className?: string;
   itemClassName?: string;
   labelClassName?: string;
+  numberClassName?: string;
 }
 
-export function Countdown({ targetDate, className = "", itemClassName = "", labelClassName = "" }: CountdownProps) {
+export function Countdown({ targetDate, className = "", itemClassName = "", labelClassName = "", numberClassName = "" }: CountdownProps) {
   const { days, hours, minutes, seconds, isFinished } = useCountdown(targetDate);
 
   if (isFinished) {
@@ -39,7 +40,7 @@ export function Countdown({ targetDate, className = "", itemClassName = "", labe
           id={`countdown-item-${item.label.toLowerCase()}`}
           className={`flex flex-col items-center justify-center p-3 sm:p-4 bg-white/[0.03] border border-white/[0.08] backdrop-blur-md rounded-2xl transition-all ${itemClassName}`}
         >
-          <span className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
+          <span className={`text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight ${numberClassName}`}>
             {formatNumber(item.value)}
           </span>
           <span className={`text-[10px] sm:text-xs text-gray-400 font-mono mt-1 font-light uppercase tracking-wider ${labelClassName}`}>
