@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { safeGetItem, safeSetItem } from "../services/storage";
 
 export default function Subscription() {
   const [currentTier, setCurrentTier] = useState<string>("free");
   const [showCelebration, setShowCelebration] = useState<boolean>(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+    const stored = safeGetItem("user-subscription") || safeGetItem("subscription") || "free";
     setCurrentTier(stored.toLowerCase());
   }, []);
 
   const handleSetTier = (tier: "free" | "premium") => {
-    localStorage.setItem("user-subscription", tier);
-    localStorage.setItem("subscription", tier);
+    safeSetItem("user-subscription", tier);
+    safeSetItem("subscription", tier);
     setCurrentTier(tier);
 
     if (tier === "premium") {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { safeGetItem } from "../services/storage";
 
 export default function SubscriptionBadge() {
   const [subTier, setSubTier] = useState<string>("free");
 
   useEffect(() => {
-    // Read status from localStorage
-    const stored = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+    // Read status from localStorage safely
+    const stored = safeGetItem("user-subscription") || safeGetItem("subscription") || "free";
     setSubTier(stored.toLowerCase());
   }, []);
 

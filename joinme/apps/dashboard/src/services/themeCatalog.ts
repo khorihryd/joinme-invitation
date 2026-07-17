@@ -6,6 +6,7 @@ export interface ThemeItem {
   tier: "free" | "premium";
   demoInviteId: string; // The invite ID used for live preview in the runtime
   features: string[];
+  thumbnailUrl?: string; // Optional raster thumbnail URL for production hardening fallback
 }
 
 export const THEME_CATALOG: ThemeItem[] = [
@@ -16,7 +17,8 @@ export const THEME_CATALOG: ThemeItem[] = [
     thumbnailGradient: "from-[#1d1e26] via-[#12131a] to-[#0d0d11] border-indigo-500/20",
     tier: "free",
     demoInviteId: "abc123",
-    features: ["Tipografi Inter & Monospace", "Desain Responsif Mobile", "Load Time < 800ms"]
+    features: ["Tipografi Inter & Monospace", "Desain Responsif Mobile", "Load Time < 800ms"],
+    thumbnailUrl: "/assets/non-existent-standard-thumb.jpg" // Set to a non-existent URL to demonstrate the fallback UI
   },
   {
     id: "premium-theme",
@@ -25,7 +27,8 @@ export const THEME_CATALOG: ThemeItem[] = [
     thumbnailGradient: "from-[#1a1510] via-[#0f0c08] to-[#070503] border-amber-500/40",
     tier: "premium",
     demoInviteId: "xyz789",
-    features: ["Aksen Ornamen Emas Royal", "Efek Glassmorphism Mewah", "Konfirmasi RSVP Eksklusif", "Efek Interaktif & Animasi Halus"]
+    features: ["Aksen Ornamen Emas Royal", "Efek Glassmorphism Mewah", "Konfirmasi RSVP Eksklusif", "Efek Interaktif & Animasi Halus"],
+    thumbnailUrl: "/assets/non-existent-premium-thumb.jpg" // Set to a non-existent URL to demonstrate the fallback UI
   }
 ];
 

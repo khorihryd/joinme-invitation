@@ -36,6 +36,9 @@ function serveThemesPlugin() {
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss(), serveThemesPlugin()],
+    esbuild: {
+      drop: ['console', 'debugger'],
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

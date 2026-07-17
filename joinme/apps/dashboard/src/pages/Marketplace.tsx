@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import { THEME_CATALOG, ThemeItem } from "../services/themeCatalog";
 import ThemeCard from "../components/ThemeCard";
 import PreviewTheme from "./PreviewTheme";
+import { safeGetItem, safeSetItem } from "../services/storage";
 
 export default function Marketplace() {
   const [userTier, setUserTier] = useState<string>("free");
   const [previewTheme, setPreviewTheme] = useState<ThemeItem | null>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+    const stored = safeGetItem("user-subscription") || safeGetItem("subscription") || "free";
     setUserTier(stored.toLowerCase());
   }, []);
 
   const handleSelectTheme = (themeId: string) => {
-    // Save chosen theme in localStorage so the Create Invitation page can pick it up
-    localStorage.setItem("joinme-selected-theme", themeId);
+    // Save chosen theme in localStorage safely so the Create Invitation page can pick it up
+    safeSetItem("joinme-selected-theme", themeId);
     
     // Redirect to Create Invitation subpage
     const params = new URLSearchParams(window.location.search);

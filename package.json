@@ -10,7 +10,7 @@
     "dev:auth": "vite --config joinme/apps/auth/vite.config.ts --port 3001 --host 0.0.0.0",
     "dev:dashboard": "vite --config joinme/apps/dashboard/vite.config.ts --port 3002 --host 0.0.0.0",
     "dev:runtime": "vite --config joinme/apps/runtime/vite.config.ts --port 5173 --host 0.0.0.0",
-    "build": "vite build",
+    "build": "vite build && mkdir -p dist/themes && cp -r joinme/themes/* dist/themes/",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"

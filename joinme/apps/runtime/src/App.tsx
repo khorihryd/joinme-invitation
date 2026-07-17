@@ -58,8 +58,12 @@ export default function App() {
   };
 
   const handleSimulateUpgrade = () => {
-    localStorage.setItem("user-subscription", "premium");
-    localStorage.setItem("subscription", "premium");
+    try {
+      localStorage.setItem("user-subscription", "premium");
+      localStorage.setItem("subscription", "premium");
+    } catch (e) {
+      console.warn("Failed to set item in localStorage:", e);
+    }
     // Reload page to re-trigger permissions and instantly display theme
     window.location.reload();
   };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { safeGetItem, safeSetItem, safeRemoveItem } from "../services/storage";
 
 export default function CreateInvitation() {
   const [eventName, setEventName] = useState("");
@@ -12,11 +13,11 @@ export default function CreateInvitation() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+    const stored = safeGetItem("user-subscription") || safeGetItem("subscription") || "free";
     const normalizedTier = stored.toLowerCase();
     setSubTier(normalizedTier);
 
-    const selectedTheme = localStorage.getItem("joinme-selected-theme");
+    const selectedTheme = safeGetItem("joinme-selected-theme");
     if (!selectedTheme) {
       // No theme chosen yet, redirect to theme marketplace!
       const params = new URLSearchParams(window.location.search);
@@ -46,7 +47,7 @@ export default function CreateInvitation() {
     };
 
     // Store in localStorage (simulated DB)
-    const existingInvitesRaw = localStorage.getItem("joinme-invitations");
+    const existingInvitesRaw = safeGetItem("joinme-invitations");
     const existingInvites = existingInvitesRaw ? JSON.parse(existingInvitesRaw) : [];
     
     // Check Free tier limit (1 invitation)
@@ -60,10 +61,10 @@ export default function CreateInvitation() {
     }
 
     existingInvites.push(newInvitation);
-    localStorage.setItem("joinme-invitations", JSON.stringify(existingInvites));
+    safeSetItem("joinme-invitations", JSON.stringify(existingInvites));
 
     // Clear the selected theme from marketplace after successful creation
-    localStorage.removeItem("joinme-selected-theme");
+    safeRemoveItem("joinme-selected-theme");
 
     setCreatedInviteId(uniqueId);
   };

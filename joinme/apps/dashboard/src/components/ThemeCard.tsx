@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ThemeItem } from "../services/themeCatalog";
 
 interface ThemeCardProps {
@@ -13,6 +13,7 @@ interface ThemeCardProps {
 export default function ThemeCard({ theme, userTier, onSelect, onPreview, onUpgrade }: ThemeCardProps) {
   const isPremium = theme.tier === "premium";
   const isLocked = isPremium && userTier !== "premium";
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div 
@@ -27,20 +28,36 @@ export default function ThemeCard({ theme, userTier, onSelect, onPreview, onUpgr
     >
       {/* Visual Thumbnail Frame */}
       <div className={`relative h-44 rounded-2xl bg-gradient-to-b ${theme.thumbnailGradient} border overflow-hidden flex flex-col items-center justify-center p-4 select-none`}>
-        {/* Background ambient decorative shapes */}
-        <div className={`absolute top-4 left-4 w-12 h-12 rounded-full blur-xl opacity-30 ${isPremium ? "bg-amber-500" : "bg-indigo-500"}`}></div>
-        <div className={`absolute bottom-4 right-4 w-16 h-16 rounded-full blur-2xl opacity-20 ${isPremium ? "bg-yellow-400" : "bg-purple-500"}`}></div>
-        
-        {/* Mock Invitation Card inside Thumbnail */}
-        <div className="relative w-full max-w-[180px] bg-white/[0.02] border border-white/[0.08] rounded-xl p-3.5 shadow-2xl backdrop-blur-md text-center transform group-hover:scale-105 transition-transform duration-300">
-          <span className={`text-[8px] font-mono tracking-widest ${isPremium ? "text-amber-400" : "text-indigo-400"} uppercase font-semibold`}>Undangan Resmi</span>
+        {theme.thumbnailUrl && !imgError ? (
+          <img 
+            src={theme.thumbnailUrl} 
+            alt={theme.name} 
+            referrerPolicy="no-referrer"
+            onError={() => setImgError(true)}
+            className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-300 group-hover:scale-105"
+          />
+        ) : null}
+
+        {/* Fallback & Custom Mock Card UI (rendered if no image or if image load fails) */}
+        <div className={`relative w-full max-w-[180px] bg-white/[0.02] border border-white/[0.08] rounded-xl p-3.5 shadow-2xl backdrop-blur-md text-center transform group-hover:scale-105 transition-transform duration-300 z-10 ${imgError ? "ring-1 ring-red-500/30" : ""}`}>
+          <span className={`text-[8px] font-mono tracking-widest ${isPremium ? "text-amber-400" : "text-indigo-400"} uppercase font-semibold`}>
+            {imgError ? "⚠️ Fallback Active" : "Undangan Resmi"}
+          </span>
           <h5 className="text-xs font-serif font-extrabold text-white mt-1 leading-tight">Budi & Ani</h5>
           <div className="h-[1px] bg-white/[0.06] my-1.5 w-8 mx-auto"></div>
           <span className="text-[7px] text-gray-500 font-mono block">17 JULI 2026</span>
         </div>
 
+        {/* Background ambient decorative shapes (only visible if using CSS fallback or transparent image) */}
+        {(!theme.thumbnailUrl || imgError) && (
+          <>
+            <div className={`absolute top-4 left-4 w-12 h-12 rounded-full blur-xl opacity-30 ${isPremium ? "bg-amber-500" : "bg-indigo-500"}`}></div>
+            <div className={`absolute bottom-4 right-4 w-16 h-16 rounded-full blur-2xl opacity-20 ${isPremium ? "bg-yellow-400" : "bg-purple-500"}`}></div>
+          </>
+        )}
+
         {/* Tier Badge on Thumbnail Corner */}
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 z-20">
           {isPremium ? (
             <span className="px-2.5 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[9px] font-mono uppercase font-bold rounded-full">
               👑 Premium

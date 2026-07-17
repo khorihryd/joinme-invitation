@@ -14,8 +14,13 @@ export function hasThemeAccess(manifest: ThemeManifestWithTier): boolean {
     return true;
   }
 
-  // Retrieve user subscription status from localStorage (supporting multiple possible keys for safety)
-  const subscription = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+  // Retrieve user subscription status from localStorage safely (supporting multiple possible keys for safety)
+  let subscription = "free";
+  try {
+    subscription = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
+  } catch (e) {
+    console.warn("Failed to retrieve subscription status from localStorage:", e);
+  }
 
   if (manifest.tier.toLowerCase() === "premium") {
     return subscription.toLowerCase() === "premium";

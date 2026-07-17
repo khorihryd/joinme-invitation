@@ -1,5 +1,23 @@
 import React, { useState, useEffect } from "react";
 
+// Safe storage utilities to harden production behavior in sandbox iframe
+function safeGetItem(key: string, fallback: string = ""): string {
+  try {
+    return localStorage.getItem(key) || fallback;
+  } catch (e) {
+    console.warn(`localStorage.getItem failed for key "${key}":`, e);
+    return fallback;
+  }
+}
+
+function safeSetItem(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    console.warn(`localStorage.setItem failed for key "${key}":`, e);
+  }
+}
+
 export default function App() {
   const [isRegister, setIsRegister] = useState<boolean>(false);
   const [email, setEmail] = useState("");
@@ -42,7 +60,12 @@ export default function App() {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    let users: any[] = [];
+    try {
+      users = JSON.parse(safeGetItem("users", "[]"));
+    } catch (e) {
+      console.error("Failed to parse users list:", e);
+    }
 
     if (isRegister) {
       // REGISTER FLOW
@@ -53,7 +76,7 @@ export default function App() {
       }
 
       users.push({ email, password });
-      localStorage.setItem("users", JSON.stringify(users));
+      safeSetItem("users", JSON.stringify(users));
       setSuccess("Registrasi berhasil! Silakan login.");
       
       // Auto-switch to login after 1.5s
@@ -73,8 +96,8 @@ export default function App() {
       const defaultUser = email === "admin@joinme.com" && password === "admin123";
       
       if (user || defaultUser) {
-        localStorage.setItem("user-token", "dummy-user-token-xyz");
-        localStorage.setItem("user-email", email);
+        safeSetItem("user-token", "dummy-user-token-xyz");
+        safeSetItem("user-email", email);
         setSuccess("Login berhasil! Mengalihkan ke Dashboard...");
         
         setTimeout(() => {
