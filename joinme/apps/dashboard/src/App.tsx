@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Subscription from "./pages/Subscription";
 import CreateInvitation from "./pages/CreateInvitation";
 import SubscriptionBadge from "./components/SubscriptionBadge";
+import Marketplace from "./pages/Marketplace";
 
 interface LocalInvitation {
   id: string;
@@ -103,9 +104,20 @@ export default function App() {
             <div className="h-4 w-px bg-white/[0.1] hidden sm:block"></div>
             <button
               onClick={() => handleNavigate("")}
-              className="text-sm font-semibold text-gray-400 font-mono tracking-wider uppercase hidden sm:block hover:text-white transition-colors cursor-pointer"
+              className={`text-sm font-semibold font-mono tracking-wider uppercase hidden sm:block transition-colors cursor-pointer ${
+                !subPage ? "text-white" : "text-gray-400 hover:text-white"
+              }`}
             >
               Dashboard
+            </button>
+            <div className="h-4 w-px bg-white/[0.1] hidden sm:block"></div>
+            <button
+              onClick={() => handleNavigate("marketplace")}
+              className={`text-sm font-semibold font-mono tracking-wider uppercase hidden sm:block transition-colors cursor-pointer ${
+                subPage === "marketplace" ? "text-white" : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Marketplace
             </button>
           </div>
 
@@ -130,6 +142,8 @@ export default function App() {
         
         {subPage === "pricing" ? (
           <Subscription />
+        ) : subPage === "marketplace" ? (
+          <Marketplace />
         ) : subPage === "create" ? (
           <CreateInvitation />
         ) : (

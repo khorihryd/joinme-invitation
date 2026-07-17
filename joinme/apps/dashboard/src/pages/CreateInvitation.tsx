@@ -13,7 +13,18 @@ export default function CreateInvitation() {
 
   useEffect(() => {
     const stored = localStorage.getItem("user-subscription") || localStorage.getItem("subscription") || "free";
-    setSubTier(stored.toLowerCase());
+    const normalizedTier = stored.toLowerCase();
+    setSubTier(normalizedTier);
+
+    const selectedTheme = localStorage.getItem("joinme-selected-theme");
+    if (!selectedTheme) {
+      // No theme chosen yet, redirect to theme marketplace!
+      const params = new URLSearchParams(window.location.search);
+      params.set("subpage", "marketplace");
+      window.location.href = `?${params.toString()}`;
+    } else {
+      setTheme(selectedTheme);
+    }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,6 +61,9 @@ export default function CreateInvitation() {
 
     existingInvites.push(newInvitation);
     localStorage.setItem("joinme-invitations", JSON.stringify(existingInvites));
+
+    // Clear the selected theme from marketplace after successful creation
+    localStorage.removeItem("joinme-selected-theme");
 
     setCreatedInviteId(uniqueId);
   };
@@ -148,84 +162,48 @@ export default function CreateInvitation() {
           {/* Theme Selector */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-semibold text-gray-400 font-mono uppercase tracking-wider">Pilih Theme Desain</label>
-              {subTier !== "premium" && (
-                <span className="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full font-mono uppercase font-bold">
-                  Akun Free Plan
-                </span>
-              )}
+              <label className="block text-xs font-semibold text-gray-400 font-mono uppercase tracking-wider">Theme Desain Pilihan</label>
+              <button
+                type="button"
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search);
+                  params.set("subpage", "marketplace");
+                  window.location.href = `?${params.toString()}`;
+                }}
+                className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold transition-all cursor-pointer flex items-center gap-1"
+              >
+                🎨 Ubah Tema di Marketplace
+              </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              
-              {/* Sample Theme (Standard) */}
-              <label className={`p-4 rounded-2xl border flex flex-col justify-between gap-3 cursor-pointer transition-all ${
-                theme === "sample-theme" 
-                  ? "bg-indigo-600/[0.04] border-indigo-500 ring-1 ring-indigo-500/30" 
-                  : "bg-white/[0.01] border-white/[0.06] hover:border-white/[0.12]"
-              }`}>
-                <input
-                  type="radio"
-                  name="theme"
-                  value="sample-theme"
-                  checked={theme === "sample-theme"}
-                  onChange={() => setTheme("sample-theme")}
-                  className="sr-only"
-                />
-                <div className="flex items-center justify-between">
-                  <div className="text-left">
-                    <span className="text-xs font-bold text-white block">Sample Theme</span>
-                    <span className="text-[10px] text-gray-400 mt-0.5 block">Minimalist & clean default layout.</span>
-                  </div>
-                  <span className="text-xs text-indigo-400 font-mono font-bold">Free</span>
-                </div>
-              </label>
-
-              {/* Premium Theme */}
-              {subTier === "premium" ? (
-                <label className={`p-4 rounded-2xl border flex flex-col justify-between gap-3 cursor-pointer transition-all ${
+            <div className="p-5 bg-white/[0.02] border border-white/[0.06] rounded-2xl flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-tr flex items-center justify-center ${
                   theme === "premium-theme" 
-                    ? "bg-amber-500/[0.04] border-amber-500 ring-1 ring-amber-500/30" 
-                    : "bg-white/[0.01] border-white/[0.06] hover:border-white/[0.12]"
+                    ? "from-amber-600/20 to-yellow-500/10 border border-amber-500/30 text-amber-300" 
+                    : "from-indigo-600/20 to-indigo-500/10 border border-indigo-500/30 text-indigo-300"
                 }`}>
-                  <input
-                    type="radio"
-                    name="theme"
-                    value="premium-theme"
-                    checked={theme === "premium-theme"}
-                    onChange={() => setTheme("premium-theme")}
-                    className="sr-only"
-                  />
-                  <div className="flex items-center justify-between">
-                    <div className="text-left">
-                      <span className="text-xs font-bold text-white block">Premium Luxury Theme</span>
-                      <span className="text-[10px] text-amber-200/60 mt-0.5 block">Golden ornament, glassmorphism.</span>
-                    </div>
-                    <span className="text-xs text-amber-400 font-mono font-bold">👑 Premium</span>
-                  </div>
-                </label>
-              ) : (
-                <div 
-                  className="p-4 rounded-2xl border border-dashed border-white/[0.04] bg-white/[0.01] flex flex-col justify-between gap-3 opacity-50 relative group cursor-not-allowed"
-                  title="Upgrade ke Premium untuk membuka tema ini"
-                  onClick={() => {
-                    if (confirm("Tema premium hanya untuk akun Premium. Ingin menuju halaman Upgrade paket sekarang?")) {
-                      const params = new URLSearchParams(window.location.search);
-                      params.set("subpage", "pricing");
-                      window.location.href = `?${params.toString()}`;
-                    }
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-left">
-                      <span className="text-xs font-bold text-gray-500 block">Premium Luxury Theme</span>
-                      <span className="text-[10px] text-gray-600 mt-0.5 block">Kunci terbuka setelah upgrade.</span>
-                    </div>
-                    <span className="text-[10px] bg-amber-500/10 border border-amber-500/20 text-amber-400 font-mono font-bold px-2 py-0.5 rounded-full">👑 Lock</span>
-                  </div>
+                  <span className="text-xl">{theme === "premium-theme" ? "👑" : "🌱"}</span>
                 </div>
-              )}
+                <div className="text-left">
+                  <span className="text-sm font-bold text-white block">
+                    {theme === "premium-theme" ? "Luxury Gold & Glassmorphism Theme" : "Standard Minimalist Theme"}
+                  </span>
+                  <span className="text-xs text-gray-400 mt-0.5 block">
+                    {theme === "premium-theme" ? "Sentuhan warna emas mewah, glassmorphic." : "Desain bersih, modern, dan elegan."}
+                  </span>
+                </div>
+              </div>
 
+              {theme === "premium-theme" ? (
+                <span className="px-2.5 py-1 bg-amber-500/15 border border-amber-500/30 text-amber-300 text-[9px] font-mono uppercase font-bold rounded-full">
+                  Premium
+                </span>
+              ) : (
+                <span className="px-2.5 py-1 bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 text-[9px] font-mono uppercase font-bold rounded-full">
+                  Standard
+                </span>
+              )}
             </div>
           </div>
 
