@@ -64,4 +64,46 @@ Silakan patuhi larangan berikut demi menjaga integritas sistem:
 
 ---
 
+## 💻 4. Cara Menjalankan Projek di Lokal (Local Development Guide)
+
+Untuk menjalankan dan mengembangkan ekosistem JoinMe di mesin lokal Anda:
+
+### Prasyarat (Prerequisites)
+- **Node.js** v18 atau lebih baru (Disarankan v20+).
+- **npm** (bawaan Node.js) atau **Bun** untuk instalasi dependensi yang cepat.
+
+### Langkah-Langkah Instalasi (Installation Steps)
+1. **Instal Dependensi**:
+   Instal semua paket dependensi dari root direktori proyek.
+   ```bash
+   npm install
+   ```
+
+2. **Menjalankan Server Pengembangan (Dev Server)**:
+   Proyek ini menggunakan konfigurasi Vite tunggal terpadu di root (`vite.config.ts`) dengan kustomisasi plugin middleware (`serve-themes`) untuk melayani dynamic theme loading dan path routing secara serentak di satu port.
+   Jalankan server dev di port `3000` dengan perintah:
+   ```bash
+   npm run dev
+   ```
+   Aplikasi akan dapat diakses secara lokal di: `http://localhost:3000`.
+
+3. **Menjalankan Multi-App Secara Bersamaan (Alternatif / Opsional)**:
+   Jika Anda membutuhkan instance server mandiri untuk masing-masing sub-aplikasi (Landing, Auth, Dashboard, Runtime) yang berjalan di port terpisah secara simultan, gunakan skrip `concurrently` bawaan:
+   ```bash
+   npm run dev:all
+   ```
+   *Catatan Port*:
+   - **Landing Page**: Port `3000` (`http://localhost:3000`)
+   - **Auth (Pendaftaran)**: Port `3001` (`http://localhost:3001`)
+   - **Dashboard**: Port `3002` (`http://localhost:3002`)
+   - **Runtime (Rendering Tema)**: Port `5173` (`http://localhost:5173`)
+
+4. **Kompilasi & Build untuk Produksi (Build for Production)**:
+   Untuk mem-build seluruh aset statis siap deploy ke lingkungan produksi (ke folder `/dist`):
+   ```bash
+   npm run build
+   ```
+
+---
+
 *Diserahkan dengan penuh hormat untuk inovasi tiada henti di JoinMe Platform!* 🚀
