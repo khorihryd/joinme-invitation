@@ -1,109 +1,168 @@
-# 🤝 SERAH TERIMA PROYEK (HANDOVER) - JOINME PLATFORM V2.0
+# 📘 Handover Document: JoinMe Platform
 
-Dokumen ini ditujukan bagi AI Engineer / Developer berikutnya untuk memahami seluruh kronologi pengembangan, struktur arsitektur sistem, serta aturan teknis ketat yang telah didefinisikan oleh **Chief Architect**.
-
----
-
-## 📌 1. Gambaran Umum Sistem (System Overview)
-**JoinMe** adalah platform ekosistem undangan pernikahan digital premium. Aplikasi ini menggunakan arsitektur monorepo modern yang terdiri dari:
-- **`packages/theme-sdk`**: SDK Inti yang digunakan oleh semua tema untuk berinteraksi dengan data undangan (Context, hooks, komponen UI siap pakai seperti Countdown, RSVP, Gallery, Gift, MusicPlayer).
-- **`themes/`**: Koleksi desain tema undangan independen yang di-render secara dinamis dalam iframe (misal: `sample-theme`, `royal-gold`, `botanical-garden`, `modern-minimalist`, dan tema baru **`reels-story`**).
-- **`apps/landing`**: Halaman depan (Landing Page) pemasaran yang menargetkan calon mempelai / EO dengan copywriting bernilai jual tinggi.
-- **`apps/dashboard`**: Panel manajemen pengguna untuk mendesain undangan (menggunakan form berjenjang multi-step dan simulator pratinjau langsung).
-- **`apps/runtime`**: Mesin rendering (Engine) untuk menampilkan undangan aktif berdasarkan ID undangan atau parameter tema.
+> **Dokumen ini adalah "Pintu Gerbang" untuk memahami seluruh proyek JoinMe.**  
+> Bacaan 10 menit untuk semua pihak: Owner, Chief Architect baru, dan AI Engineer baru.
 
 ---
 
-## 🛠️ 2. Kronologi Pekerjaan & Riwayat Fitur (Changelog & Completed Tasks)
+## 1. Apa Itu JoinMe? (Visi & Misi)
 
-### 🎬 A. Pembuatan Tema Premium "Reels Story" (`/joinme/themes/reels-story`)
-- **Implementasi**: Membuat tema imersif layar penuh yang mengadopsi navigasi vertikal/horizontal khas Instagram Reels & Stories.
-- **Fitur Tema**:
-  - Segmented progress bar penunjuk halaman di bagian atas.
-  - Swipe/Touch gesture detection untuk berpindah cerita.
-  - Komponen musik otomatis (`MusicPlayer`), Hitung Mundur (`Countdown`), RSVP, Galeri Foto (`Gallery`), dan Kado Digital (`Gift`).
-- **Registrasi**: Dibuat di `/joinme/themes/reels-story`, dibuild menggunakan bundler Vite (Format ESM Lib), dan didaftarkan ke `/joinme/apps/dashboard/src/services/themeCatalog.ts` serta `/joinme/apps/runtime/src/loaders/ThemeLoader.tsx`.
+**JoinMe** adalah platform SaaS undangan digital berbasis **Theme Engine**, bukan editor drag-and-drop.
 
-### ✍️ B. Pembaruan Copywriting Landing Page (`/joinme/apps/landing/src/App.tsx`)
-- **Implementasi**: Mengubah seluruh teks berbau teknis/developer menjadi copywriting berbahasa Indonesia yang emosional dan elegan bagi calon pengantin.
-- **Slogan Baru**: *"Kirim Undangan Digital Mewah & Elegan dalam 5 Menit."*
-- **Aksi CTA**: Tombol dialihkan langsung ke halaman Registrasi (`apps/auth`) untuk memaksimalkan rasio konversi.
+**Filosofi:**
+- **Template adalah produk** (bukan sekadar layout).
+- **Studio hanya untuk mengisi data** (bukan mendesain).
+- **Fokus pada kecepatan publish**, bukan kompleksitas editor.
 
-### 🗄️ C. Desain Blueprint Supabase Database (`/joinme/docs/SUPABASE_SCHEMA.sql`)
-- **Implementasi**: Menulis rancangan skema relasional lengkap untuk migrasi masa depan dari `localStorage`.
-- **Tabel**: `users`, `subscriptions`, dan `invitations`.
-- **Fitur Keamanan**: Row Level Security (RLS) diaktifkan, plus trigger otomatis sinkronisasi pendaftaran user baru dari Supabase Auth.
-- **Panduan Kueri**: Menyediakan perbandingan per baris kode kueri dari model lama `localStorage` ke pemanggilan baru menggunakan Supabase JS SDK.
+**Target Alur Pengguna:**
+Daftar → Pilih Template → Isi Data → Preview → Publish → Share
 
-### 📋 D. Pembaruan Form Pembuatan & Live Preview (`/joinme/apps/dashboard/src/pages/CreateInvitation.tsx`)
-- **Pembaruan Tipe Data**: Menambahkan field pernikahan spesifik pada `InvitationData` di `/joinme/packages/theme-sdk/src/types/index.ts` (nama mempelai, waktu mulai/selesai, tautan maps, cerita cinta, kado, dsb).
-- **Form Multi-Tab**: Membagi proses pengisian data menjadi 5 tab interaktif:
-  1. *Pasangan & Host*
-  2. *Acara & Lokasi*
-  3. *Cerita & Galeri*
-  4. *Media & Hadiah*
-  5. *Pengaturan & Konfirmasi*
-- **Live Preview Split-Screen**:
-  - **Desktop (Layar >= 1024px)**: Layout dibagi rata (50% Form input, 50% Live Preview Simulator Iframe). Setiap ketikan langsung memperbarui visual tema tanpa muat ulang halaman.
-  - **Mobile (Layar < 1024px)**: Pratinjau disembunyikan agar form dapat diisi dengan nyaman. Muncul tombol melayang `"👁️ Lihat Pratinjau"` di pojok kanan bawah yang akan membuka overlay simulator layar penuh saat diketuk.
-- **Komunikasi postMessage**: Menggunakan metode aman `window.postMessage` untuk mengirim payload data mentah terupdate dari form Dashboard ke Iframe Runtime secara real-time.
-
-### ⚡ E. Sinkronisasi Data Runtime (`/joinme/apps/runtime/src/App.tsx` & `ThemeProvider.tsx`)
-- **Implementasi**: Memasang pendengar event (`window.addEventListener("message", ...)`) di sisi Runtime untuk menangkap payload data yang dikirim oleh Dashboard.
-- **Sifat Sinkron**: Begitu event ditangkap, state lokal `setData` diperbarui secara reaktif sehingga tema di dalam iframe langsung beradaptasi secara instan tanpa perlu reload.
+> **Motto:** *"Architecture before implementation. Consistency before speed. Themes are products, Studio is only the tool."*
 
 ---
 
-## 🚦 3. Aturan Arsitektur & Larangan Keras (Mandatory Developer Rules)
+## 2. Tim dan Peran
 
-Silakan patuhi larangan berikut demi menjaga integritas sistem:
-1. **Dilarang keras mengubah mekanisme `useInvitation()` di SDK**: Data di dalam tema harus murni mengalir secara reaktif dari context/provider SDK.
-2. **Dilarang keras menaruh logika bisnis ke dalam tema**: Tema hanyalah representasi visual murni (*Presentational Component*) yang menerima data apa adanya dari Context SDK.
-3. **Konfigurasi Port**: Semua server pengembangan harus dikonfigurasi berjalan di **Port 3000** sesuai dengan pembatasan container proxy Cloud Run.
-4. **Verifikasi Kode**: Selalu jalankan linter (`npm run lint` / `lint_applet`) dan kompilasi (`compile_applet`) secara berkala setelah membuat perubahan guna menghindari error fatal pada runtime produksi.
-
----
-
-## 💻 4. Cara Menjalankan Projek di Lokal (Local Development Guide)
-
-Untuk menjalankan dan mengembangkan ekosistem JoinMe di mesin lokal Anda:
-
-### Prasyarat (Prerequisites)
-- **Node.js** v18 atau lebih baru (Disarankan v20+).
-- **npm** (bawaan Node.js) atau **Bun** untuk instalasi dependensi yang cepat.
-
-### Langkah-Langkah Instalasi (Installation Steps)
-1. **Instal Dependensi**:
-   Instal semua paket dependensi dari root direktori proyek.
-   ```bash
-   npm install
-   ```
-
-2. **Menjalankan Server Pengembangan (Dev Server)**:
-   Proyek ini menggunakan konfigurasi Vite tunggal terpadu di root (`vite.config.ts`) dengan kustomisasi plugin middleware (`serve-themes`) untuk melayani dynamic theme loading dan path routing secara serentak di satu port.
-   Jalankan server dev di port `3000` dengan perintah:
-   ```bash
-   npm run dev
-   ```
-   Aplikasi akan dapat diakses secara lokal di: `http://localhost:3000`.
-
-3. **Menjalankan Multi-App Secara Bersamaan (Alternatif / Opsional)**:
-   Jika Anda membutuhkan instance server mandiri untuk masing-masing sub-aplikasi (Landing, Auth, Dashboard, Runtime) yang berjalan di port terpisah secara simultan, gunakan skrip `concurrently` bawaan:
-   ```bash
-   npm run dev:all
-   ```
-   *Catatan Port*:
-   - **Landing Page**: Port `3000` (`http://localhost:3000`)
-   - **Auth (Pendaftaran)**: Port `3001` (`http://localhost:3001`)
-   - **Dashboard**: Port `3002` (`http://localhost:3002`)
-   - **Runtime (Rendering Tema)**: Port `5173` (`http://localhost:5173`)
-
-4. **Kompilasi & Build untuk Produksi (Build for Production)**:
-   Untuk mem-build seluruh aset statis siap deploy ke lingkungan produksi (ke folder `/dist`):
-   ```bash
-   npm run build
-   ```
+| Peran | Bertanggung Jawab |
+| :--- | :--- |
+| **Product Owner** | Menentukan visi, roadmap, menjalankan AI, testing, deployment. |
+| **Chief Software Architect** | Menjaga arsitektur, mendesain SDK & Runtime, review milestone. |
+| **AI Software Engineer** | Implementasi kode, refactor, testing, dokumentasi. |
 
 ---
 
-*Diserahkan dengan penuh hormat untuk inovasi tiada henti di JoinMe Platform!* 🚀
+## 3. Ringkasan Teknis (Stack & Struktur)
+
+### Tech Stack
+- **Package Manager:** `pnpm` (workspace monorepo)
+- **Framework:** React 18 + TypeScript (strict mode)
+- **Bundler:** Vite (Library Mode untuk SDK, SPA untuk apps)
+- **Styling:** Tailwind CSS
+- **Database:** Supabase (blueprint siap, belum terintegrasi)
+
+### Struktur Monorepo
+```text
+joinme/
+├── apps/
+│   ├── landing/         # Halaman publik (Port 3000)
+│   ├── auth/            # Login & Register (Port 3001)
+│   ├── dashboard/       # Admin user (Port 3002) - Marketplace & Create Form
+│   └── runtime/         # Mesin pemutar tema (Port 5173)
+├── packages/
+│   └── theme-sdk/       # Jantung arsitektur (8 Components, 6 Hooks)
+├── themes/              # Koleksi tema (sample, premium, royal-gold, dll)
+├── scripts/
+│   └── upload-theme.ts  # CLI untuk build + zip tema
+└── docs/
+    └── SUPABASE_SCHEMA.sql
+```
+
+---
+
+## 4. Arsitektur Inti (Yang Harus Diingat Semua Orang)
+
+| Prinsip | Penjelasan |
+| :--- | :--- |
+| **Runtime owns business logic** | Runtime mengelola data, autentikasi, dan permission. |
+| **Theme owns presentation** | Theme hanya menampilkan UI, tidak boleh mengakses data langsung. |
+| **SDK sebagai kontrak** | Theme wajib menggunakan `@joinme/theme-sdk` untuk semua interaksi data. |
+| **Manifest sebagai kontrak** | Setiap theme wajib memiliki `manifest.json` yang dibaca Runtime. |
+
+**Larangan untuk Theme:**
+- ❌ Fetch data langsung atau mengakses database.
+- ❌ Membuat RSVP atau Countdown sendiri (harus pakai SDK).
+- ❌ Menyimpan state global (selain UI state lokal seperti tab aktif).
+
+---
+
+## 5. Histori Pekerjaan (Blok 1 s/d 13)
+
+| Blok | Nama | Deskripsi Singkat | Status | Tantangan & Solusi |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | Foundation & SDK Awal | Inisialisasi monorepo, ThemeContext, useInvitation, types. | ✅ | - |
+| 2 | Runtime Engine | Runtime load theme, ThemeProvider dengan loading & error state. | ✅ | - |
+| 3 | Theme Starter & Dynamic Loader | Sample theme, React.lazy dynamic import, Error Boundary. | ✅ | Fallback source di DEV, throw error di PROD. |
+| 4 | Production Loader & Manifest | Runtime baca manifest.json, conditional DEV/PROD fallback. | ✅ | - |
+| 5 | Invitation Engine & Upload | Dynamic data based on inviteId, upload-theme CLI (adm-zip). | ✅ | Upload menggunakan adm-zip agar platform-agnostic. |
+| 6 | Landing Page & Authentication | Landing, Auth (localStorage), Dashboard (Protected Route). | ✅ | - |
+| 7 | Billing & Premium Theme | Subscription simulation, Premium theme, permissionService. | ✅ | - |
+| 8 | Marketplace & Theme Discovery | Theme catalog, grid cards, preview mockup, responsive viewport frame. | ✅ | Device selector untuk preview. |
+| 9 | Production Hardening | Env variables, code splitting, console drop, Dockerization, Supabase blueprint. | ✅ | Docker multi-stage + Nginx SPA routing. |
+| 10 | UI Components (Countdown & RSVP) | useCountdown, useRSVP, Countdown, RSVP komponen SDK. | ✅ | Memisahkan logika dari presentasi. |
+| 11 | UI Components (Gallery & MusicPlayer) | useGallery, useMusic, Gallery (lightbox), MusicPlayer (floating). | ✅ | Custom lightbox tanpa library eksternal, autoplay mitigation. |
+| 12 | UI Components (Cover, Story, Timeline, Gift) | useStory, Cover, Story, Timeline, Gift. | ✅ | - |
+| 13 | Create Form Multi-Step & Split Preview | 5-tab form, live preview via postMessage, mobile toggle overlay. | ✅ | Komunikasi real-time antar apps tanpa melanggar arsitektur. |
+
+---
+
+## 6. Status Terkini (Kondisi Sekarang)
+
+| Modul | Status | Catatan |
+| :--- | :--- | :--- |
+| **Theme SDK (8 Components + 6 Hooks)** | ✅ 100% | Lengkap dan siap pakai. |
+| **Runtime Engine** | ✅ 100% | Support dynamic loading & postMessage preview. |
+| **Marketplace (5 Tema)** | ✅ 100% | 1 Free (Sample), 4 Premium (Premium, Royal Gold, Botanical Garden, Modern Minimalist). |
+| **Landing Page** | ✅ 100% | Copywriting sudah diubah ke bahasa Indonesia emosional. |
+| **Auth & Dashboard** | ✅ 100% | Login/Register (localStorage). |
+| **Create Form (Blok 13)** | ✅ 100% | 5 Tabs, Split-screen Preview (Desktop), Toggle Mobile Overlay. |
+| **Docker / Deployment** | ✅ 100% | Siap deploy ke server. |
+| **Supabase Integration** | ⏳ Belum | Blueprint SQL siap, tapi belum terhubung ke kode. |
+| **Payment Gateway** | ⏳ Belum | Tombol "Upgrade" masih simulasi. |
+
+---
+
+## 7. Pekerjaan yang Belum Selesai (Prioritas)
+
+| Prioritas | Tugas | Dampak jika Tidak Dilakukan |
+| :--- | :--- | :--- |
+| 🔴 **1** | Integrasi Supabase (ganti localStorage dengan API nyata) | Fatal. Data akan hilang jika user refresh browser. |
+| 🔴 **2** | Integrasi Payment Gateway (Midtrans/Xendit) | Fatal. Tidak ada pemasukan. |
+| 🟡 **3** | Deployment ke Server Publik (Docker + aaPanel) | Penting. Agar pengguna nyata bisa akses. |
+| 🟢 **4** | Tambah Tema Premium | Opsional. SDK sudah siap, tinggal minta AI/desainer buat tema baru. |
+
+---
+
+## 8. Perintah Penting (Cheat Sheet)
+
+| Perintah | Fungsi |
+| :--- | :--- |
+| `pnpm install` | Install semua dependencies. |
+| `pnpm dev:all` | Jalankan semua apps sekaligus (Landing, Auth, Dashboard, Runtime). |
+| `pnpm build` | Build semua apps untuk production. |
+| `cd themes/[nama-tema] && pnpm build` | Build satu tema (menghasilkan dist/). |
+| `npx tsx scripts/upload-theme.ts --path themes/[nama-tema]` | Upload tema ke apps/runtime/public/themes/. |
+| `pnpm run lint` | Jalankan TypeScript compiler check. |
+| `docker build -t joinme-app .` | Build Docker image. |
+| `docker run -d -p 3000:3000 --name joinme joinme-app` | Jalankan container. |
+
+---
+
+## 9. Tips untuk Tim Baru
+
+### Untuk Chief Architect Baru
+- **Pegang Erat Konstitusi:** Jika ada yang meminta fitur "drag-drop editor", tolak! Arahkan ke pembuatan tema baru via SDK.
+- **Jaga Kemurnian SDK:** Jangan pernah menambahkan logika bisnis (fetch, localStorage) ke dalam `packages/theme-sdk`.
+- **Fokus pada Prioritas:** Setelah membaca dokumen ini, arahan pertama ke AI Engineer adalah Integrasi Supabase.
+
+### Untuk AI Engineer Baru
+- Baca `AI_INSTRUCTIONS.md` sebelum membuat tema baru.
+- Jangan menyentuh `localStorage` atau `fetch` di dalam `packages/theme-sdk`.
+- Jika preview tidak berubah, cek console iframe untuk log `Received UPDATE_INVITATION_DATA`.
+- Gunakan perintah `pnpm dev:all` untuk menjalankan semua aplikasi sekaligus.
+
+---
+
+## 10. Kontak & Penutup
+
+Proyek ini telah melalui 13 blok pengembangan intensif. Semua keputusan teknis dibuat dengan mempertimbangkan skalabilitas, kemudahan pengembangan AI, dan kecepatan publish sebagai nilai utama.
+
+**Sumber Daya Tambahan:**
+- **JoinMe Constitution v1.0** → Aturan arsitektur yang tidak boleh dilanggar.
+- **AI_INSTRUCTIONS.md** → Panduan membuat tema untuk AI/manusia.
+- **docs/SUPABASE_SCHEMA.sql** → Skema database final untuk migrasi.
+
+Selamat bergabung dengan tim JoinMe! Bawa platform ini menjadi pemimpin pasar undangan digital di Indonesia. 🚀
+
+---
+Dokumen ini dibuat pada: July 18, 2026  
+Oleh: Previous Chief Software Architect
